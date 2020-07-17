@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "patient/test",
+      "launchUrl": "api/v0.1/patient/test",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "Leaf": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "patient/test",
+      "launchUrl": "api/v0.1/patient/test",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
