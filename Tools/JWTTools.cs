@@ -1,61 +1,93 @@
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Hnet.Util
+namespace Leaf.Tools
 {
     public class JWTTools
     {
-        private static string Secret = "db3OIsj+BXE9NZDy0t8W56cNekrF+2d/1sFnWG30iTO5tVWJG8a56WvB1GlOgJuQZdcF2Luq" + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
+        // Init Secret var
+        private static string Secret = Environment.GetEnvironmentVariable("JWTSecret") + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
 
-        public static string GenerateToken(string user, string app, string permisos, int expireMinutes = 360)
+        /// <summary>
+        ///     Generates a JWT token with:
+        ///      - Symetric key from launchSettings.json
+        ///      - username
+        ///      - profile
+        ///      - granted routes list
+        ///      - expire time
+        /// </summary>
+        /// <param name="user"> Username </param>
+        /// <param name="grantedRoutes"> Routes with access </param>
+        /// <param name="expireMinutes"> Alive time for the token </param>
+        /// <returns></returns>
+        public static string GenerateToken(string user, string profile, int expireMinutes = 360)
         {
-            var symmetricKey = Convert.FromBase64String(System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Secret + app)));
-            var tokenHandler = new JwtSecurityTokenHandler();
+            // Get Byte Array from the secret
+            Byte[] symmetricKey = Convert.FromBase64String(System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Secret)));
 
-            var now = DateTime.UtcNow;
+            // Creates token
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
-                var tokenDescriptor = new SecurityTokenDescriptor
+            // Get now Datetime
+            DateTime now = DateTime.UtcNow;
+
+            // Defines SecurityTokenDescriptor
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new List<Claim>()
-                        {
+                Subject = new ClaimsIdentity(new List<Claim>() {
+                        // Adds username as Name
                         new Claim(ClaimTypes.Name, user),
-                        new Claim(ClaimTypes.Role, app),
-                        new Claim("PERMISOS", permisos),
-                    }, "Custom"),
+                        // Adds profile code as Role
+                        new Claim(ClaimTypes.Role, profile),
+                        /* Code for Custom param
+                            new Claim("GRANTEDROUTES", grantedRoutes),
+                        */
+                    }, "LeafJWT"),
 
-                Expires = now.AddMinutes(Convert.ToInt32(expireMinutes)),
+                // Define expiration time
+                Expires = now.AddMinutes(expireMinutes),
                 
-
+                // Adds keys to token
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256Signature)
             };
-     
-            var stoken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(stoken);
 
+            // Generate token and converts into a serialized string
+            SecurityToken stoken = tokenHandler.CreateToken(tokenDescriptor);
+            string token = tokenHandler.WriteToken(stoken);
+
+            // Returns token
             return token;
         }
 
-        public static string CheckToken(string token, string app)
+        /// <summary>
+        ///     Checks if token is valid 
+        /// </summary>
+        /// <param name="token"> JWT token </param>
+        /// <returns> Returs string with username if is valid or null for invalid token </returns>
+        public static string CheckToken(string token)
         {
             try
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                // Creates token handler and reads the token
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
 
+                // if token es null, returns null
                 if (jwtToken == null)
+                {
                     return null;
+                }
 
-                var symmetricKey = Convert.FromBase64String(System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Secret + app)));
+                // Get Byte Array from the secret
+                Byte[] symmetricKey = Convert.FromBase64String(System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Secret)));
 
-                var validationParameters = new TokenValidationParameters()
+                // Create validation parameters
+                TokenValidationParameters validationParameters = new TokenValidationParameters()
                 {
                     RequireExpirationTime = true,
                     ValidateIssuer = false,
@@ -63,16 +95,21 @@ namespace Hnet.Util
                     IssuerSigningKey = new SymmetricSecurityKey(symmetricKey)
                 };
 
+                /* Checks if token is valid
+                 * - If token is invalid, throw an error
+                 * - If token is valid returs the usesname found in token
+                 */
                 SecurityToken securityToken;
-                var principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+                ClaimsPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
 
+                // Returns token username
                 return principal.Identities.First().Name;
-
             }
 
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                // When get an error, return null
+                Debug.WriteLine($"[Error validating token]] >> {ex.Message}");
                 return null;
             }
         }

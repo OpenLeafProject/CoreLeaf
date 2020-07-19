@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
 using System;
-using Microsoft.AspNetCore.Diagnostics;
-
 
 namespace Leaf.Attributes
 {
     public class HeaderCheckJWT : ActionFilterAttribute
     {
-        public string Parameter { get; set; }
-
+        /// <summary>
+        ///     Checks request token to authorize
+        /// </summary>
+        /// <param name="filterContext"> ActionExecutingContext with the Request </param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
 
@@ -17,34 +17,49 @@ namespace Leaf.Attributes
             {
                 base.OnActionExecuting(filterContext);
 
+                // Init variables
                 string token = string.Empty;
-                string app = string.Empty;
 
+                // Get token variables from Headers
                 token = filterContext.HttpContext.Request.Headers["token"];
-                app = filterContext.HttpContext.Request.Headers["app"];
 
-                string user = Hnet.Util.JWTTools.CheckToken(token, app);
+                /* Checks token validity
+                 *  - checks token expiration date
+                 *  - checks token secretkey
+                 *  - checks token user
+                 */
+                string user = Leaf.Tools.JWTTools.CheckToken(token);
+
+                /* if Hnet.Util.JWTTools.CheckToken returns null
+                 * something was wrong and token is invalid
+                 */
                 if (user == null)
                 {
-                    Debug.WriteLine("Unauthorized for " + user + " in " + app + " [" + filterContext.HttpContext.Request.Path + "]");
-                    
-                    // TODO: More especific error
-                    filterContext.HttpContext.Abort();
+                    /* Logs 401 unauthorized request
+                     * - Token is not present
+                     */
+                    Debug.WriteLine($"Unauthorized for {user} [{filterContext.HttpContext.Request.Path}]");
+                    // Returns 401 status and JSON Message for unauthorized request
+                    filterContext.Result = new Microsoft.AspNetCore.Mvc.UnauthorizedResult();
                 }
                 else
                 {
-                    Debug.WriteLine("Access Granted for " + user + " in " + app + " [" + filterContext.HttpContext.Request.Path + "]");
+                    // Logs authorized request
+                    Debug.WriteLine($"Access Granted for {user} [{filterContext.HttpContext.Request.Path}]");
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Invalid token [" + filterContext.HttpContext.Request.Path + "]");
-                Debug.WriteLine("  >> Reason -> " + ex.Message);
-                
-                // TODO: More especific error
-                filterContext.HttpContext.Abort();
+                /* Logs 401 unauthorized request
+                 *  - Token is not present
+                 *  - 500 error ehen checking token (token is malformed or is not really a token)
+                 */
+                Debug.WriteLine($"Invalid token [{filterContext.HttpContext.Request.Path}]");
+                Debug.WriteLine($"  >> Reason -> {ex.Message}");
+
+                // Returns 401 status and JSON Message for unauthorized request
+                filterContext.Result = new Microsoft.AspNetCore.Mvc.UnauthorizedResult();
             }
         }
-
     }
 }

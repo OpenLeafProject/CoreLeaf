@@ -1,5 +1,4 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,12 +7,14 @@
       "sslPort": 44371
     }
   },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "api/v0.1/patient/test",
       "environmentVariables": {
+        "JWTSecret": "db3OIsj+BXE9NZDy0t8W56cNekrF+2d/1sFnWG30iTO5tVWJG8a56WvB1GlOgJuQZdcF2Luq",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
@@ -21,10 +22,11 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/v0.1/patient/test",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
+        "JWTSecret": "db3OIsj+BXE9NZDy0t8W56cNekrF+2d/1sFnWG30iTO5tVWJG8a56WvB1GlOgJuQZdcF2Luq",
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }
