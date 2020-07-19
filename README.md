@@ -34,6 +34,6 @@ $ dotnet restore
 
 ### Docker
 Leaf will be very easy to install and deploy in a Docker container but we need help to develop Leaf!
-Dou you want colaborate with Leaf?? Read the [CONTRIBUTING.md](https://github.com/OpenLeafProject/CoreLeaf/blob/master/CONTRIBUTING.md) file
+Dou you want colaborate with Leaf?? -> Read the [CONTRIBUTING.md](https://github.com/OpenLeafProject/CoreLeaf/blob/master/CONTRIBUTING.md) file
 
 
