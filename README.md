@@ -21,6 +21,7 @@ Leaf uses a number of open source projects to work properly:
 * [.NET Core] - powerfull APIREST build with .NET Core 3.1
 * [Twitter Bootstrap] - great UI boilerplate for modern web apps
 * [Material Design] - beautifull components for a beautifull web app
+* [MariaDB] - one of the most popular open source relational databases (you also can use MySQL of course!)
 
 ### Leaf REST API Installation
 
@@ -32,12 +33,7 @@ $ dotnet restore
 ```
 
 ### Docker
-Leaf is very easy to install and deploy in a Docker container.
+Leaf will be very easy to install and deploy in a Docker container but we need help to develop Leaf!
+Dou you want colaborate with Leaf?? Read the [CONTRIBUTING.md](https://github.com/OpenLeafProject/CoreLeaf/blob/master/CONTRIBUTING.md) file
 
-By default, the Docker will expose port 8080, so change this within the Dockerfile if necessary. When ready, simply use the Dockerfile to build the image.
-
-```sh
-cd leaf
-docker build -t [TO DO]
-```
 
