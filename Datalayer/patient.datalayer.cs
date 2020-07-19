@@ -14,11 +14,11 @@ namespace Leaf.Datalayers.Patient
 
         }
 
-        public DataTable GetPatients(string id)
+        public DataTable Test(string id)
         {
             try
             {
-                string sql = @"SELECT * FROM patients WHERE ID = @ID";
+                string sql = @"SELECT * FROM users WHERE ID = @ID";
 
                 return GetDataTable(sql, new Parameters("ID", DbType.String, id.ToLower()));
             }
