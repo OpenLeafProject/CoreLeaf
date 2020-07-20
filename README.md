@@ -2,7 +2,7 @@
 
 # Leaf (REST API) 
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreensvg?style=flat)](https://github.com/Ukkime/Leaf) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Ukkime/Leaf/issues)
+[![Build Status](https://img.shields.io/badge/build-not%20builded%20yet-orange)](https://github.com/Ukkime/Leaf) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Ukkime/Leaf/issues)
 
 
 ### What is Leaf?
