@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Leaf.Datalayers.Core
 {
-    public class DataLayer : Leaf.Data.DataLayerBase
+    public class DataLayer : Leaf.Data.DataLayerBaseMySQL
     {
 
         public DataLayer(IConfiguration _config)

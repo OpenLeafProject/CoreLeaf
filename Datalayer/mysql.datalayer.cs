@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 
 namespace Leaf.Data
 {
-    public class DataLayerBase : IDisposable
+    public class DataLayerBaseMySQL : IDisposable
     {
         public struct Parameters
         {
@@ -110,7 +110,7 @@ namespace Leaf.Data
         public IDbTransaction Transaction { get => _transaction; set => _transaction = value; }
 
         //constructor
-        public DataLayerBase(string connectionString)
+        public DataLayerBaseMySQL(string connectionString)
         {
             _connectionString = connectionString;
             _connection = new MySqlConnection(connectionString);

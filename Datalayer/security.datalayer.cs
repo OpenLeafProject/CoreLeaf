@@ -2,11 +2,10 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;
 using System.Diagnostics;
-using System.Security.Cryptography;
 
 namespace Leaf.Datalayers.Security
 {
-    public class DataLayer : Leaf.Data.DataLayerBase
+    public class DataLayer : Leaf.Data.DataLayerBaseMySQL
     {
 
         public DataLayer(IConfiguration _config)
