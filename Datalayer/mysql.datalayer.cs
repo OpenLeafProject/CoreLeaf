@@ -143,7 +143,7 @@ namespace Leaf.Data
             command.Connection = cmd;
             command.CommandType = CommandType.Text;
             command.CommandText = sql;
-            command.ExecuteNonQuery();
+            // why!?? command.ExecuteNonQuery();
 
             return command;
 
