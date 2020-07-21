@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections;
 using Microsoft.Extensions.Configuration;
+using Leaf.Models;
+using System.Collections.Generic;
 
 namespace Leaf.Controllers
 {
@@ -40,6 +42,58 @@ namespace Leaf.Controllers
             {
                 return dl.Test("1");
 
+            }
+        }
+
+        [HttpGet]
+        [Route("{nhc}")]
+        public ActionResult<object> getPatient(int nhc)
+        {
+            try
+            {
+                return new Patient(nhc, _config);
+            } catch(NullReferenceException ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
+
+        [HttpPost]
+        [Route("createpatient")]
+        public ActionResult<object> createPatient([FromBody] Dictionary<string, string> values)
+        {
+            try
+            {
+                Patient patient = new Patient(values,_config);
+                return patient.createPatient();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
+
+        [HttpPost]
+        [Route("savepatient")]
+        public ActionResult<object> savePatient([FromBody] Dictionary<string, string> values)
+        {
+            try
+            {
+                return new Patient(values, _config).savePatient();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
             }
         }
     }
