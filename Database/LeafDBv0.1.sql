@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS `api_log` (
   `remoteipadress` varchar(15) COLLATE utf8mb4_spanish_ci NOT NULL,
   `response` longtext COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT '' CHECK (json_valid(`response`)),
   `headers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' CHECK (json_valid(`headers`)),
+  `insertdate` datetime DEFAULT NULL,
+  `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -34,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `api_log` (
 DROP TABLE IF EXISTS `appointments`;
 CREATE TABLE IF NOT EXISTS `appointments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datetime` date NOT NULL,
+  `datetime` datetime NOT NULL,
   `forced` int(11) NOT NULL,
   `allowinvoice` int(11) NOT NULL,
   `price` int(11) DEFAULT NULL,
@@ -67,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `centers` (
   `address` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
   `city` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
   `pc` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `creationdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `NIF` (`NIF`)
@@ -74,8 +77,8 @@ CREATE TABLE IF NOT EXISTS `centers` (
 
 -- Volcando datos para la tabla leaf.centers: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `centers` DISABLE KEYS */;
-INSERT INTO `centers` (`id`, `code`, `name`, `NIF`, `address`, `city`, `pc`) VALUES
-	(1, 'TEST', 'Test Center', '0000000000', 'Somplace', 'Tarragona', '43002');
+INSERT INTO `centers` (`id`, `code`, `name`, `NIF`, `address`, `city`, `pc`, `creationdate`) VALUES
+	(1, 'TEST', 'Test Center', '0000000000', 'Somplace', 'Tarragona', '43002', '2020-07-20 14:27:43');
 /*!40000 ALTER TABLE `centers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.invoices
@@ -84,8 +87,8 @@ CREATE TABLE IF NOT EXISTS `invoices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ammount` float NOT NULL,
   `iva` float NOT NULL,
-  `invoicedate` date NOT NULL,
-  `paymentdate` date NOT NULL,
+  `invoicedate` datetime NOT NULL,
+  `paymentdate` datetime NOT NULL,
   `patienid` int(11) NOT NULL,
   `appointmentid` int(11) NOT NULL,
   `centerid` int(11) NOT NULL,
@@ -136,17 +139,20 @@ CREATE TABLE IF NOT EXISTS `patients` (
   `pc` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
   `sex` int(11) NOT NULL,
   `note` varchar(255) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
-  `lastaccess` date DEFAULT NULL,
+  `lastaccess` datetime DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   `centerid` int(11) NOT NULL,
+  `borndate` date DEFAULT NULL,
   PRIMARY KEY (`nhc`),
   UNIQUE KEY `dni` (`dni`),
   KEY `centerid` (`centerid`),
   CONSTRAINT `patients_ibfk_1` FOREIGN KEY (`centerid`) REFERENCES `centers` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- Volcando datos para la tabla leaf.patients: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `patients` DISABLE KEYS */;
+INSERT INTO `patients` (`nhc`, `name`, `surname`, `lastname`, `dni`, `phone`, `phonealt`, `address`, `city`, `pc`, `sex`, `note`, `lastaccess`, `email`, `centerid`, `borndate`) VALUES
+	(1, 'Chuck', 'Norris', NULL, '6666666666666666666X', '666666666', NULL, 'noplace', 'nocity', '43002', 1, NULL, '2020-07-20 00:00:00', NULL, 1, '2020-07-20');
 /*!40000 ALTER TABLE `patients` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.payment_method
@@ -155,6 +161,7 @@ CREATE TABLE IF NOT EXISTS `payment_method` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
   `code` varchar(5) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `creationdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -168,8 +175,8 @@ DROP TABLE IF EXISTS `reports`;
 CREATE TABLE IF NOT EXISTS `reports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` longtext COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT '' CHECK (json_valid(`content`)),
-  `creationdate` date NOT NULL,
-  `signdate` date DEFAULT NULL,
+  `creationdate` datetime NOT NULL,
+  `signdate` datetime DEFAULT NULL,
   `patientid` int(11) NOT NULL,
   `appointmentid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -194,10 +201,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastname` varchar(50) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   `colnum` varchar(15) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
-  `creationdate` date NOT NULL,
+  `creationdate` datetime DEFAULT NULL,
   `active` int(11) NOT NULL,
   `profileimage` varchar(255) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
-  `lastaccess` date DEFAULT NULL,
+  `lastaccess` datetime DEFAULT NULL,
   `lasipaccess` varchar(15) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   `profileid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -209,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Volcando datos para la tabla leaf.users: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `surname`, `lastname`, `colnum`, `email`, `creationdate`, `active`, `profileimage`, `lastaccess`, `lasipaccess`, `profileid`) VALUES
-	(4, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin', NULL, NULL, NULL, '0000-00-00', 1, NULL, NULL, NULL, 1);
+	(4, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin', NULL, NULL, NULL, '1987-05-05 01:01:01', 1, NULL, NULL, NULL, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.users_centers
@@ -217,6 +224,7 @@ DROP TABLE IF EXISTS `users_centers`;
 CREATE TABLE IF NOT EXISTS `users_centers` (
   `userid` int(11) NOT NULL,
   `centerid` int(11) NOT NULL,
+  `creationdate` datetime DEFAULT NULL,
   PRIMARY KEY (`userid`,`centerid`),
   KEY `centerid` (`centerid`),
   CONSTRAINT `users_centers_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
@@ -225,8 +233,8 @@ CREATE TABLE IF NOT EXISTS `users_centers` (
 
 -- Volcando datos para la tabla leaf.users_centers: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `users_centers` DISABLE KEYS */;
-INSERT INTO `users_centers` (`userid`, `centerid`) VALUES
-	(4, 1);
+INSERT INTO `users_centers` (`userid`, `centerid`, `creationdate`) VALUES
+	(4, 1, '2020-07-20 14:26:43');
 /*!40000 ALTER TABLE `users_centers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.user_profiles
@@ -235,14 +243,15 @@ CREATE TABLE IF NOT EXISTS `user_profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
   `code` varchar(5) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `creationdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- Volcando datos para la tabla leaf.user_profiles: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` (`id`, `description`, `code`) VALUES
-	(1, 'Root User', 'ROOT');
+INSERT INTO `user_profiles` (`id`, `description`, `code`, `creationdate`) VALUES
+	(1, 'Root User', 'ROOT', '2020-07-20 14:26:40');
 /*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.visit_modes
@@ -251,14 +260,15 @@ CREATE TABLE IF NOT EXISTS `visit_modes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
   `code` varchar(5) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `creationdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla leaf.visit_modes: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla leaf.visit_modes: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `visit_modes` DISABLE KEYS */;
-INSERT INTO `visit_modes` (`id`, `description`, `code`) VALUES
-	(1, 'Videocall', 'VIDEO');
+INSERT INTO `visit_modes` (`id`, `description`, `code`, `creationdate`) VALUES
+	(1, 'Videocall', 'VIDEO', '2020-07-20 14:26:38');
 /*!40000 ALTER TABLE `visit_modes` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.visit_types
@@ -267,14 +277,15 @@ CREATE TABLE IF NOT EXISTS `visit_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
   `code` varchar(5) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `creationdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- Volcando datos para la tabla leaf.visit_types: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `visit_types` DISABLE KEYS */;
-INSERT INTO `visit_types` (`id`, `description`, `code`) VALUES
-	(1, 'Evaluation', 'EVAL');
+INSERT INTO `visit_types` (`id`, `description`, `code`, `creationdate`) VALUES
+	(1, 'Evaluation', 'EVAL', '2020-07-20 14:26:35');
 /*!40000 ALTER TABLE `visit_types` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
