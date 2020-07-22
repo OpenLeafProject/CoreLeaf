@@ -51,7 +51,7 @@ namespace Leaf.Datalayers.Center
                                 (`code`, `name`, `nif`, 
                                 `address`, `city`, `pc`, `creationdate`) 
                                VALUES
-	                           (@CODE, @NAME, @NIF, @ADDRESS, @CITY, @PC, @CREATIONDATE)";
+	                           (@CODE, @NAME, @NIF, @ADDRESS, @CITY, @PC, NOW())";
 
             return Execute(sql, new Parameters("CODE", DbType.String, center.Code)
                                    , new Parameters("NAME", DbType.String, center.Name)
@@ -59,7 +59,6 @@ namespace Leaf.Datalayers.Center
                                    , new Parameters("ADDRESS", DbType.String, center.Address)
                                    , new Parameters("CITY", DbType.String, center.City)
                                    , new Parameters("PC", DbType.String, center.Pc)
-                                   , new Parameters("CREATIONDATE", DbType.DateTime, center.CreationDate)
                                    );
 
         }
@@ -83,7 +82,6 @@ namespace Leaf.Datalayers.Center
                                    , new Parameters("ADDRESS", DbType.String, center.Address)
                                    , new Parameters("CITY", DbType.String, center.City)
                                    , new Parameters("PC", DbType.String, center.Pc)
-                                   , new Parameters("CREATIONDATE", DbType.DateTime, center.CreationDate)
                                    );
         }
     }
