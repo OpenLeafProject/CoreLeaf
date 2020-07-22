@@ -111,7 +111,7 @@ namespace Leaf.Datalayers.Patient
                                 `borndate` = @BORNDATE
                                WHERE `nhc` = @NHC";
 
-                return Execute(sql, new Parameters("NHC", DbType.Int32, patient.Name)
+                return Execute(sql, new Parameters("NHC", DbType.Int32, patient.Nhc)
                                        , new Parameters("NAME", DbType.String, patient.Name)
                                        , new Parameters("SURNAME", DbType.String, patient.Surname)
                                        , new Parameters("LASTNAME", DbType.String, patient.Lastname)
@@ -126,14 +126,8 @@ namespace Leaf.Datalayers.Patient
                                        , new Parameters("LASTACCESS", DbType.Int32, patient.LastAccess)
                                        , new Parameters("EMAIL", DbType.Int32, patient.Email)
                                        , new Parameters("CENTERID", DbType.Int32, patient.Center.Id)
-                                       , new Parameters("BORNDATE", DbType.Int32, patient.BornDate)
+                                       , new Parameters("BORNDATE", DbType.Date, patient.BornDate)
                                        );
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return 0;
-            }
         }
     }
 }
