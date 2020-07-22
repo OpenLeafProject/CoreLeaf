@@ -29,7 +29,7 @@ namespace Leaf.Datalayers.Patient
             }
         }
 
-        internal DataTable GetpatientByNHC(int nhc)
+        internal DataTable GetByNHC(int nhc)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Leaf.Datalayers.Patient
             }
         }
 
-        internal DataTable GetpatientByDNI(string dni)
+        internal DataTable GetByDNI(string dni)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Leaf.Datalayers.Patient
             }
         }
 
-        internal int createPatient(Models.Patient patient)
+        internal int Create(Models.Patient patient)
         {
 
                 string sql = @"INSERT INTO `patients` 
@@ -90,10 +90,8 @@ namespace Leaf.Datalayers.Patient
 
         }
 
-        internal int savePatient(Models.Patient patient)
+        internal int Save(Models.Patient patient)
         {
-            try
-            {
                 string sql = @"UPDATE `patients` 
                                SET 
                                 `name` = @NAME, 

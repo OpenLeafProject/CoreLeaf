@@ -54,13 +54,13 @@ namespace Leaf.Models
         public Patient(int nhc, IConfiguration config)
         {
             _config = config;
-            loadPatientbyNHC(nhc);
+            LoadByNHC(nhc);
         }
 
         public Patient(string dni, IConfiguration config)
         {
             _config = config;
-            loadPatientbyDNI(dni);
+            LoadByDNI(dni);
         }
 
         public Patient(Dictionary<string, string> values, IConfiguration config)
@@ -70,7 +70,7 @@ namespace Leaf.Models
             try
             {
                 this.nhc = Int32.Parse(values["nhc"]);
-                loadPatientbyNHC(this.Nhc);
+                LoadByNHC(this.Nhc);
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
                 this.nhc = -1;
@@ -94,11 +94,11 @@ namespace Leaf.Models
 
         }
 
-        private void loadPatientbyNHC(int nhc)
+        private void LoadByNHC(int nhc)
         {
             using (Leaf.Datalayers.Patient.DataLayer dl = new Leaf.Datalayers.Patient.DataLayer(_config))
             {
-               System.Data.DataTable dt =  dl.GetpatientByNHC(nhc);
+               System.Data.DataTable dt =  dl.GetByNHC(nhc);
                 if(dt.Rows.Count == 1)
                 {
                     this.nhc = Int32.Parse(dt.Rows[0]["nhc"].ToString());
@@ -125,11 +125,11 @@ namespace Leaf.Models
             }
         }
 
-        private void loadPatientbyDNI(string dni)
+        private void LoadByDNI(string dni)
         {
             using (Leaf.Datalayers.Patient.DataLayer dl = new Leaf.Datalayers.Patient.DataLayer(_config))
             {
-                System.Data.DataTable dt = dl.GetpatientByDNI(dni);
+                System.Data.DataTable dt = dl.GetByDNI(dni);
                 if (dt.Rows.Count == 1)
                 {
                     this.nhc = Int32.Parse(dt.Rows[0]["nhc"].ToString());
@@ -156,7 +156,7 @@ namespace Leaf.Models
             }
         }
 
-        public Patient createPatient()
+        public Patient Create()
         {
             using (Leaf.Datalayers.Patient.DataLayer dl = new Leaf.Datalayers.Patient.DataLayer(_config))
             {
@@ -174,13 +174,13 @@ namespace Leaf.Models
                     correctdni = true;
                 }
 
-                if(dl.createPatient(this) == 1)
+                if(dl.Create(this) == 1)
                 {
-                    loadPatientbyDNI(this.dni);
+                    LoadByDNI(this.dni);
                     if(correctdni)
                     {
                         this.Dni = "";
-                        savePatient();
+                        Save();
                     }
                     return this;
                 } else
@@ -190,7 +190,7 @@ namespace Leaf.Models
             }
         }
 
-        public Patient savePatient()
+        public Patient Save()
         {
             if (!(this.Nhc > 0))
             {
@@ -199,9 +199,9 @@ namespace Leaf.Models
 
             using (Leaf.Datalayers.Patient.DataLayer dl = new Leaf.Datalayers.Patient.DataLayer(_config))
             {
-                if (dl.savePatient(this) == 1)
+                if (dl.Save(this) == 1)
                 {
-                    loadPatientbyNHC(this.nhc);
+                    LoadByNHC(this.nhc);
                     return this;
                 }
                 else

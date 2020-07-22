@@ -44,10 +44,10 @@ namespace Leaf.Controllers
 
             }
         }
-
+         
         [HttpGet]
         [Route("{nhc}")]
-        public ActionResult<object> getPatient(int nhc)
+        public ActionResult<object> Get(int nhc)
         {
             try
             {
@@ -62,13 +62,12 @@ namespace Leaf.Controllers
         }
 
         [HttpPost]
-        [Route("createpatient")]
-        public ActionResult<object> createPatient([FromBody] Dictionary<string, string> values)
+        [Route("create")]
+        public ActionResult<object> Create([FromBody] Dictionary<string, string> values)
         {
             try
             {
-                Patient patient = new Patient(values,_config);
-                return patient.createPatient();
+               return new Patient(values,_config).Create();
             }
             catch (Exception ex)
             {
@@ -80,12 +79,12 @@ namespace Leaf.Controllers
         }
 
         [HttpPost]
-        [Route("savepatient")]
-        public ActionResult<object> savePatient([FromBody] Dictionary<string, string> values)
+        [Route("save")]
+        public ActionResult<object> save([FromBody] Dictionary<string, string> values)
         {
             try
             {
-                return new Patient(values, _config).savePatient();
+                return new Patient(values, _config).Save();
 
             }
             catch (Exception ex)
