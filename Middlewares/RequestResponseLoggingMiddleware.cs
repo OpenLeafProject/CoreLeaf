@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Leaf.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -54,6 +55,7 @@ namespace Leaf.Middlewares
             */
 
             context.Request.Body.Position = 0;
+            requestStream.Position = 0;
 
             if (_config.GetValue<Boolean>("Run:EnableDBLog"))
             {
@@ -62,10 +64,29 @@ namespace Leaf.Middlewares
                 {
                     logheaders = Newtonsoft.Json.JsonConvert.SerializeObject(context.Request.Headers);
                 }
-                using (Leaf.Datalayers.Core.DataLayer dl = new Leaf.Datalayers.Core.DataLayer(_config))
+
+
+                
+                using (var reader = new StreamReader(requestStream))
                 {
-                    dl.SaveLogRequest(context.Request.Method, logheaders, context.Request.Scheme, context.Request.Host.ToString(), context.Request.Path, context.Request.QueryString.ToString(), _hash, context.Connection.RemoteIpAddress.ToString());
+                    var body = reader.ReadToEnd();
+
+                    string jsonized = Newtonsoft.Json.JsonConvert.SerializeObject(body);
+                    jsonized = jsonized.Replace("\\n", "").Replace("\\r", "").Replace("\\", "");
+
+                    ApiLog apilog = new ApiLog(_config);
+                    apilog.Id = _hash;
+                    apilog.Method = context.Request.Method;
+                    apilog.Headers = logheaders;
+                    apilog.Scheme = context.Request.Scheme;
+                    apilog.Host = context.Request.Host.ToString();
+                    apilog.Path = context.Request.Path;
+                    apilog.QueryString = jsonized.Trim();
+                    apilog.RemoteIPAdress = context.Connection.RemoteIpAddress.ToString();
+                    apilog.Create();
                 }
+
+                context.Request.Body.Position = 0;
             }
         }
 
@@ -90,12 +111,10 @@ namespace Leaf.Middlewares
 
             if (_config.GetValue<Boolean>("Run:EnableDBLog") && _config.GetValue<Boolean>("Run:HardLog"))
             {
-                using (Leaf.Datalayers.Core.DataLayer dl = new Leaf.Datalayers.Core.DataLayer(_config))
-                {
-                    dl.SaveLogResponse(context.Request.Method, Newtonsoft.Json.JsonConvert.SerializeObject(context.Request.Headers), context.Request.Scheme, context.Request.Host.ToString(), context.Request.Path, context.Request.QueryString.ToString(), _hash, context.Connection.RemoteIpAddress.ToString(), text);
-                }
+                ApiLog apilog = new ApiLog(_hash, _config);
+                apilog.Response = text;
+                apilog.Save();
             }
-
 
             await responseBody.CopyToAsync(originalBodyStream);
         }
