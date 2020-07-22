@@ -8,6 +8,7 @@ namespace Leaf.Data
     {
         private static string LEAF_PRE;
         private static string LEAF_PRO;
+        private static string LEAF_TESTING;
 
         private static string CONNECTIONSTRING;
 
@@ -17,11 +18,15 @@ namespace Leaf.Data
         {
             _config = config;
 
-            LEAF_PRE = _config.GetValue<String>("ConnectionStrings:Debug");
-            LEAF_PRO = _config.GetValue<String>("ConnectionStrings:Prod");
+            LEAF_PRE     = _config.GetValue<String>("ConnectionStrings:Debug");
+            LEAF_PRO     = _config.GetValue<String>("ConnectionStrings:Prod");
+            LEAF_TESTING = _config.GetValue<String>("ConnectionStrings:Testing");
 
-
-            if (_config.GetValue<Boolean>("Run:Production"))
+            if (_config.GetValue<Boolean>("Run:Testing"))
+            {
+                CONNECTIONSTRING = LEAF_TESTING;
+            } 
+            else if (_config.GetValue<Boolean>("Run:Production"))
             {
                 CONNECTIONSTRING = LEAF_PRO;
             } else
@@ -32,6 +37,7 @@ namespace Leaf.Data
         
         public String getConnectString()
         {
+            Debug.Write($"[Connecting with: '{CONNECTIONSTRING}]'");
             return CONNECTIONSTRING;
         }
     }
