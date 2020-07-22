@@ -14,7 +14,7 @@ namespace Leaf.Datalayers.Center
 
         }
 
-        public DataTable loadCenterById(int id)
+        internal DataTable loadById(int id)
         {
             try
             {
@@ -29,11 +29,11 @@ namespace Leaf.Datalayers.Center
             }
         }
 
-        public DataTable loadCenterByCode(string code)
+        internal DataTable loadByCode(string code)
         {
             try
             {
-                string sql = @"SELECT * FROM center WHERE CODE = @CODE";
+                string sql = @"SELECT * FROM centers WHERE CODE = @CODE";
 
                 return GetDataTable(sql, new Parameters("CODE", DbType.String, code));
             }
@@ -42,6 +42,49 @@ namespace Leaf.Datalayers.Center
                 Debug.WriteLine(ex.Message);
                 return null;
             }
+        }
+
+        internal int Create(Models.Center center)
+        {
+
+            string sql = @"INSERT INTO `centers` 
+                                (`code`, `name`, `nif`, 
+                                `address`, `city`, `pc`, `creationdate`) 
+                               VALUES
+	                           (@CODE, @NAME, @NIF, @ADDRESS, @CITY, @PC, @CREATIONDATE)";
+
+            return Execute(sql, new Parameters("CODE", DbType.String, center.Code)
+                                   , new Parameters("NAME", DbType.String, center.Name)
+                                   , new Parameters("NIF", DbType.String, center.Nif)
+                                   , new Parameters("ADDRESS", DbType.String, center.Address)
+                                   , new Parameters("CITY", DbType.String, center.City)
+                                   , new Parameters("PC", DbType.String, center.Pc)
+                                   , new Parameters("CREATIONDATE", DbType.DateTime, center.CreationDate)
+                                   );
+
+        }
+
+        internal int Save(Models.Center center)
+        {
+            string sql = @"UPDATE `centers` 
+                               SET 
+                                `code` = @CODE, 
+                                `name` = @NAME, 
+                                `nif` = @NIF, 
+                                `address` = @ADDRESS, 
+                                `city` = @CITY, 
+                                `pc` = @PC 
+                               WHERE `id` = @ID";
+
+            return Execute(sql, new Parameters("ID", DbType.Int32, center.Id)
+                                   , new Parameters("CODE", DbType.String, center.Code)
+                                   , new Parameters("NAME", DbType.String, center.Name)
+                                   , new Parameters("NIF", DbType.String, center.Nif)
+                                   , new Parameters("ADDRESS", DbType.String, center.Address)
+                                   , new Parameters("CITY", DbType.String, center.City)
+                                   , new Parameters("PC", DbType.String, center.Pc)
+                                   , new Parameters("CREATIONDATE", DbType.DateTime, center.CreationDate)
+                                   );
         }
     }
 }
