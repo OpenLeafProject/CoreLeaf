@@ -6,7 +6,7 @@
 
 
 ### What is Leaf?
-Leaf is a complete solution for clinical data management with this awesome features
+Leaf is a complete solution for clinical data management with this awesome features:
   - Patients management
   - Scheduled dates management
   - Invoices management
@@ -23,17 +23,24 @@ Leaf uses a number of open source projects to work properly:
 * [Material Design] - beautifull components for a beautifull web app
 * [MariaDB] - one of the most popular open source relational databases (you also can use MySQL of course!)
 
-### Leaf REST API Installation
+### Clone and work with Leaf REST API
 
-[TO DO: WRITE COMMANDS TO RESTORE PACKAGES - INSTALL LEAF]
+> We highly recommend [Visual Studio Code](https://code.visualstudio.com/download) to develop! 
+> But You can work with Visual Studio or your favourite IDE :wink:
+
+> [ms-dotnettools.csharp](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp) extension is required in Visual Studio Code.
 
 ```sh
-$ cd leaf
+$ git clone https://github.com/OpenLeafProject/CoreLeaf.git
+$ cd CoreLeaf
 $ dotnet restore
+$ code .
 ```
+
 
 ### Docker
 Leaf will be very easy to install and deploy in a Docker container but we need help to develop Leaf!
-Dou you want colaborate with Leaf?? -> Read the [CONTRIBUTING.md](https://github.com/OpenLeafProject/CoreLeaf/blob/master/CONTRIBUTING.md) file
+
+Dou you want colaborate with Leaf?? -> Read the [CONTRIBUTING.md](https://github.com/OpenLeafProject/CoreLeaf/blob/master/CONTRIBUTING.md) file.
 
 
