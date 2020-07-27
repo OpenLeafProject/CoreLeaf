@@ -19,17 +19,26 @@ CREATE TABLE IF NOT EXISTS `api_log` (
   `scheme` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
   `host` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
   `path` varchar(1024) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `querystring` longtext COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT '' CHECK (json_valid(`querystring`)),
+  `querystring` longtext COLLATE utf8mb4_spanish_ci DEFAULT '',
   `remoteipadress` varchar(15) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `response` longtext COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT '' CHECK (json_valid(`response`)),
+  `response` longtext COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   `headers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' CHECK (json_valid(`headers`)),
   `insertdate` datetime DEFAULT NULL,
   `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla leaf.api_log: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla leaf.api_log: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `api_log` DISABLE KEYS */;
+INSERT INTO `api_log` (`id`, `method`, `scheme`, `host`, `path`, `querystring`, `remoteipadress`, `response`, `headers`, `insertdate`, `updatedate`) VALUES
+	('2a9272d7c3f1c675ec89aceee0c13b16', 'POST', 'https', 'localhost:44371', '/api/v0.1/patient/save', '"{    "id": 1,    "name": "Chucky",    "surname": "Norrys",    "lastname": "",    "dni": "31231223",    "phone": "33333",    "phoneAlt": "",    "address": "noplace",    "city": "nocity",    "pc": "43002",    "sex": 1,    "note": "",    "lastAccess": "2020-07-20T00:00:00",    "email": "",    "bornDate": "2020-07-20T00:00:00",    "center": 1}"', '::1', '{"error":"Cannot save patient without setted NHC"}', '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["375"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTU0MTA5NzIsImV4cCI6MTU5NTQzMjU3MiwiaWF0IjoxNTk1NDEwOTcyfQ.1BRQmWSZyt4ZM3sW7-ajnnUXGwcFdXF1evUdZACk7aA"],"Postman-Token":["cfa14f24-bcf9-4c72-a39a-d4a127fa8783"]}', '2020-07-22 14:14:36', '2020-07-22 14:14:36'),
+	('3310e97e2937f787212d741bf81f85ef', 'POST', 'https', 'localhost:44371', '/api/v0.1/center/save', '"{    "id": 4,    "code": "TEST2",    "name": "Test Cente 2r",    "nif": "000000000C",    "address": "Somplace x2",    "city": "Tarragona",    "pc": "43002",    "creationDate": "2020-07-20T14:27:43"} "', '::1', NULL, '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["217"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTU0MTA5NzIsImV4cCI6MTU5NTQzMjU3MiwiaWF0IjoxNTk1NDEwOTcyfQ.1BRQmWSZyt4ZM3sW7-ajnnUXGwcFdXF1evUdZACk7aA"],"Postman-Token":["59342334-cd40-4413-adfb-91d88a1319ff"]}', '2020-07-22 14:11:24', '2020-07-22 14:11:24'),
+	('5fe78394da4dda3373089c04f04dbe21', 'POST', 'https', 'localhost:44371', '/api/v0.1/center/save', '"{    "id": 4,    "code": "TEST2",    "name": "Test Cente 2r",    "nif": "000000000C",    "address": "Somplace x2",    "city": "Tarragona",    "pc": "43002",    "creationDate": "2020-07-20T14:27:43"} "', '::1', NULL, '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["217"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTU0MTA5NzIsImV4cCI6MTU5NTQzMjU3MiwiaWF0IjoxNTk1NDEwOTcyfQ.1BRQmWSZyt4ZM3sW7-ajnnUXGwcFdXF1evUdZACk7aA"],"Postman-Token":["7e83c7b1-584f-439f-a511-829c47c882cd"]}', '2020-07-22 14:10:35', '2020-07-22 14:10:35'),
+	('7c090f38ab8dd8ff85cbd3f3d102a8bd', 'POST', 'https', 'localhost:44371', '/api/v0.1/patient/save', '"{    "nhc": 1,    "name": "Chucky",    "surname": "Norrys",    "lastname": "",    "dni": "31231223",    "phone": "33333",    "phoneAlt": "",    "address": "noplace",    "city": "nocity",    "pc": "43002",    "sex": 1,    "note": "",    "lastAccess": "2020-07-20T00:00:00",    "email": "",    "bornDate": "2020-07-20T00:00:00",    "center": 1}"', '::1', '{"error":"Duplicate entry \'31231223\' for key \'dni\'"}', '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["376"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTU0MTA5NzIsImV4cCI6MTU5NTQzMjU3MiwiaWF0IjoxNTk1NDEwOTcyfQ.1BRQmWSZyt4ZM3sW7-ajnnUXGwcFdXF1evUdZACk7aA"],"Postman-Token":["cca83cae-dfa9-4fc6-9cbf-66912ad100c9"]}', '2020-07-22 14:14:42', '2020-07-22 14:14:42'),
+	('b82915bde212986b1789e93e5d4ca8ea', 'POST', 'https', 'localhost:44371', '/api/v0.1/patient/save', '"{    "name": "Chucky",    "surname": "Norrys",    "lastname": "",    "dni": "31231223",    "phone": "33333",    "phoneAlt": "",    "address": "noplace",    "city": "nocity",    "pc": "43002",    "sex": 1,    "note": "",    "lastAccess": "2020-07-20T00:00:00",    "email": "",    "bornDate": "2020-07-20T00:00:00",    "center": 1}"', '::1', '{"error":"Cannot save patient without setted NHC"}', '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["361"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTU0MTA5NzIsImV4cCI6MTU5NTQzMjU3MiwiaWF0IjoxNTk1NDEwOTcyfQ.1BRQmWSZyt4ZM3sW7-ajnnUXGwcFdXF1evUdZACk7aA"],"Postman-Token":["296edbe5-4946-4c0b-9fd6-0b3c381ac7e2"]}', '2020-07-22 14:14:23', '2020-07-22 14:14:23'),
+	('c89a4eaa3d0f60125bc2cb82c4e7d673', 'POST', 'https', 'localhost:44371', '/api/v0.1/patient/save', '"{    "name": "Chucky",    "surname": "Norrys",    "lastname": "",    "dni": "31231223",    "phone": "33333",    "phoneAlt": "",    "address": "noplace",    "city": "nocity",    "pc": "43002",    "sex": 1,    "note": "",    "lastAccess": "2020-07-20T00:00:00",    "email": "",    "bornDate": "2020-07-20T00:00:00",    "center": 1}"', '::1', '{"type":"https://tools.ietf.org/html/rfc7235#section-3.1","title":"Unauthorized","status":401,"traceId":"|8bef1117-4c9e6a5c760686bc."}', '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["361"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTUzMTUxMDcsImV4cCI6MTU5NTMzNjcwNywiaWF0IjoxNTk1MzE1MTA3fQ.d4U09f2QIft34L5BoU1gfUvHZf_S2o8dfrqKpcD0ZFM"],"Postman-Token":["8bd5a925-016a-41b8-96c5-f30f2a52277c"]}', '2020-07-22 14:14:07', '2020-07-22 14:14:07'),
+	('da8b4d2db8738078c9a1cd7882eb76dd', 'POST', 'https', 'localhost:44371', '/api/v0.1/patient/save', '"{    "nhc": 1,    "name": "Chucky",    "surname": "Norrys",    "lastname": "",    "dni": "3123122343",    "phone": "33333",    "phoneAlt": "",    "address": "noplace",    "city": "nocity",    "pc": "43002",    "sex": 1,    "note": "",    "lastAccess": "2020-07-20T00:00:00",    "email": "",    "bornDate": "2020-07-20T00:00:00",    "center": 1}"', '::1', '{"nhc":1,"name":"Chucky","surname":"Norrys","lastname":"","dni":"3123122343","phone":"33333","phoneAlt":"","address":"noplace","city":"nocity","pc":"43002","sex":1,"note":"","lastAccess":"2020-07-20T00:00:00","email":"","bornDate":"2020-07-20T00:00:00","center":{"id":1,"code":"TEST","name":"Test Center","nif":"0000000000","address":"Somplace","city":"Tarragona","pc":"43002","creationDate":"2020-07-20T14:27:43"}}', '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["378"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTU0MTA5NzIsImV4cCI6MTU5NTQzMjU3MiwiaWF0IjoxNTk1NDEwOTcyfQ.1BRQmWSZyt4ZM3sW7-ajnnUXGwcFdXF1evUdZACk7aA"],"Postman-Token":["bd31c7e4-4156-4898-aa10-dc1d7c1b5b51"]}', '2020-07-22 14:14:48', '2020-07-22 14:14:48'),
+	('dbf5ee692af0e99220283f8d138125c0', 'POST', 'https', 'localhost:44371', '/api/v0.1/center/save', '"{    "id": 4,    "code": "TEST2",    "name": "Test Cente 2r",    "nif": "000000000C",    "address": "Somplace x2",    "city": "Tarragona",    "pc": "43002",    "creationDate": "2020-07-20T14:27:43"} "', '::1', '{"id":4,"code":"TEST2","name":"Test Cente 2r","nif":"000000000C","address":"Somplace x2","city":"Tarragona","pc":"43002","creationDate":"2020-07-20T14:27:43"}', '{"Accept":["*/*"],"Accept-Encoding":["gzip, deflate, br"],"Connection":["keep-alive"],"Content-Length":["217"],"Content-Type":["application/json"],"Host":["localhost:44371"],"User-Agent":["PostmanRuntime/7.26.1"],"token":["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPT1QiLCJuYmYiOjE1OTU0MTA5NzIsImV4cCI6MTU5NTQzMjU3MiwiaWF0IjoxNTk1NDEwOTcyfQ.1BRQmWSZyt4ZM3sW7-ajnnUXGwcFdXF1evUdZACk7aA"],"Postman-Token":["09a8fc0a-a550-4cf8-9b98-8908b97e5f16"]}', '2020-07-22 14:13:41', '2020-07-22 14:13:41');
 /*!40000 ALTER TABLE `api_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.appointments
@@ -73,12 +82,13 @@ CREATE TABLE IF NOT EXISTS `centers` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `NIF` (`NIF`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla leaf.centers: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla leaf.centers: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `centers` DISABLE KEYS */;
 INSERT INTO `centers` (`id`, `code`, `name`, `NIF`, `address`, `city`, `pc`, `creationdate`) VALUES
-	(1, 'TEST', 'Test Center', '0000000000', 'Somplace', 'Tarragona', '43002', '2020-07-20 14:27:43');
+	(1, 'TEST', 'Test Center', '0000000000', 'Somplace', 'Tarragona', '43002', '2020-07-20 14:27:43'),
+	(4, 'TEST2', 'Test Cente 2r', '000000000C', 'Somplace x2', 'Tarragona', '43002', '2020-07-20 14:27:43');
 /*!40000 ALTER TABLE `centers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.invoices
@@ -147,12 +157,15 @@ CREATE TABLE IF NOT EXISTS `patients` (
   UNIQUE KEY `dni` (`dni`),
   KEY `centerid` (`centerid`),
   CONSTRAINT `patients_ibfk_1` FOREIGN KEY (`centerid`) REFERENCES `centers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla leaf.patients: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla leaf.patients: ~14 rows (aproximadamente)
 /*!40000 ALTER TABLE `patients` DISABLE KEYS */;
 INSERT INTO `patients` (`nhc`, `name`, `surname`, `lastname`, `dni`, `phone`, `phonealt`, `address`, `city`, `pc`, `sex`, `note`, `lastaccess`, `email`, `centerid`, `borndate`) VALUES
-	(1, 'Chuck', 'Norris', NULL, '6666666666666666666X', '666666666', NULL, 'noplace', 'nocity', '43002', 1, NULL, '2020-07-20 00:00:00', NULL, 1, '2020-07-20');
+	(1, 'Chucky', 'Norrys', '', '3123122343', '33333', '', 'noplace', 'nocity', '43002', 1, '', '2020-07-20 00:00:00', '', 1, '2020-07-20'),
+	(45, 'Chucky', 'Norrys', '', '31231223', '33333', '', 'noplace', 'nocity', '43002', 1, '', '2020-07-20 00:00:00', '', 1, '2020-07-20'),
+	(46, 'Chucky', 'norry', '', '3311333X', '33333', '43543543', '', '', '', 1, '', '0001-01-01 00:00:00', '', 1, '0001-01-01'),
+	(65, 'Chuck', 'Norris', '', '20847888F', '680305080', '977854258', 'Carrer del mar 5 s/n', 'Reus', '43201', 1, 'Nothing to say', '2020-07-27 10:36:05', 'chuck.norris@google.apple', 1, '4052-01-01');
 /*!40000 ALTER TABLE `patients` ENABLE KEYS */;
 
 -- Volcando estructura para tabla leaf.payment_method
@@ -179,6 +192,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `signdate` datetime DEFAULT NULL,
   `patientid` int(11) NOT NULL,
   `appointmentid` int(11) DEFAULT NULL,
+  `hash` varchar(255) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `patientid` (`patientid`),
   KEY `appointmentid` (`appointmentid`),
