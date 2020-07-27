@@ -89,7 +89,7 @@ namespace Leaf.Models
                 }
                 else
                 {
-                    throw new System.NullReferenceException("Patient not found");
+                    throw new System.NullReferenceException("Center not found");
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace Leaf.Models
                 }
                 else
                 {
-                    throw new System.NullReferenceException("Patient not found");
+                    throw new System.NullReferenceException("Center not found");
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace Leaf.Models
         {
             if (!(this.Id > 0))
             {
-                throw new System.IO.InvalidDataException("Cannot save center without setted NHC");
+                throw new System.IO.InvalidDataException("Cannot save center without setted Id");
             }
 
             using (Leaf.Datalayers.Center.DataLayer dl = new Leaf.Datalayers.Center.DataLayer(_config))
