@@ -70,7 +70,18 @@ namespace Leaf.Models
             try
             {
                 this.nhc = Int32.Parse(values["nhc"]);
-                LoadByNHC(this.Nhc);
+
+
+                try
+                {
+                    LoadByNHC(this.Nhc);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
                 this.nhc = -1;
@@ -87,7 +98,7 @@ namespace Leaf.Models
             Pc         = values["pc"];
             Sex        = Int32.Parse(values["sex"]);
             Note       = values["note"];
-            LastAccess = DateTime.Parse(values["lastAccess"]);
+            LastAccess = (values["lastAccess"] == "") ? DateTime.Now : DateTime.Parse(values["lastAccess"]);
             Email      = values["email"];
             Center     = new Center(Int32.Parse(values["center"]), _config);
             BornDate   = DateTime.Parse(values["bornDate"]);
@@ -113,7 +124,7 @@ namespace Leaf.Models
                     Pc = dt.Rows[0]["Pc"].ToString();
                     Sex = Int32.Parse(dt.Rows[0]["Sex"].ToString());
                     Note = dt.Rows[0]["Note"].ToString();
-                    LastAccess = DateTime.Parse(dt.Rows[0]["LastAccess"].ToString());
+                    LastAccess = (dt.Rows[0]["LastAccess"].ToString() == "") ? DateTime.Now : DateTime.Parse(dt.Rows[0]["LastAccess"].ToString());
                     Email = dt.Rows[0]["Email"].ToString();
                     Center = new Center(Int32.Parse(dt.Rows[0]["Centerid"].ToString()), _config);
                     BornDate = DateTime.Parse(dt.Rows[0]["borndate"].ToString());
@@ -179,7 +190,7 @@ namespace Leaf.Models
                     LoadByDNI(this.dni);
                     if(correctdni)
                     {
-                        this.Dni = "";
+                        this.Dni = this.Nhc.ToString();
                         Save();
                     }
                     return this;

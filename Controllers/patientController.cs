@@ -12,9 +12,9 @@ namespace Leaf.Controllers
     [ApiController]
     // Enables JWT Auth Security for all methods in controller
     [Leaf.Attributes.HeaderCheckJWT]
-    public class patientController : ControllerBase
+    public class PatientController : ControllerBase
     {
-        private readonly ILogger<patientController> _logger;
+        private readonly ILogger<PatientController> _logger;
         private readonly IConfiguration _config;
 
         /// <summary>
@@ -22,27 +22,10 @@ namespace Leaf.Controllers
         /// </summary>
         /// <param name="logger"> Logguer object for debug </param>
         /// <param name="config"> appsettings.json properties </param>
-        public patientController(ILogger<patientController> logger, IConfiguration config)
+        public PatientController(ILogger<PatientController> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
-        }
-
-        /// <summary>
-        ///     Test method to check DB connection
-        /// </summary>
-        /// <returns>
-        ///     Returns api version in JSON Format
-        /// </returns>
-        [HttpGet]
-        [Route("test")]
-        public System.Data.DataTable Test()
-        {
-            using (Leaf.Datalayers.Patient.DataLayer dl = new Leaf.Datalayers.Patient.DataLayer(_config))
-            {
-                return dl.Test("1");
-
-            }
         }
          
         [HttpGet]
@@ -80,7 +63,7 @@ namespace Leaf.Controllers
 
         [HttpPost]
         [Route("save")]
-        public ActionResult<object> save([FromBody] Dictionary<string, string> values)
+        public ActionResult<object> Save([FromBody] Dictionary<string, string> values)
         {
             try
             {
