@@ -11,7 +11,7 @@ namespace Leaf.Tools
     public class JWTTools
     {
         // Init Secret var
-        private static string Secret = Environment.GetEnvironmentVariable("JWTSecret") + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString();
+        private static string Secret = Environment.GetEnvironmentVariable("JWTSecret") + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + Environment.MachineName + Environment.OSVersion + Environment.ProcessorCount;
 
         /// <summary>
         ///     Generates a JWT token with:
@@ -22,7 +22,6 @@ namespace Leaf.Tools
         ///      - expire time
         /// </summary>
         /// <param name="user"> Username </param>
-        /// <param name="grantedRoutes"> Routes with access </param>
         /// <param name="expireMinutes"> Alive time for the token </param>
         /// <returns></returns>
         public static string GenerateToken(string user, string profile, int expireMinutes = 360)
