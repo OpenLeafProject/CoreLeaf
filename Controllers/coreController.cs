@@ -7,9 +7,9 @@ namespace Leaf.Controllers
 {
     [Route("api/[controller]/")]
     [ApiController]
-    public class coreController : ControllerBase
+    public class CoreController : ControllerBase
     {
-        private readonly ILogger<coreController> _logger;
+        private readonly ILogger<CoreController> _logger;
         private readonly IConfiguration _config;
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace Leaf.Controllers
         /// </summary>
         /// <param name="logger"> Logguer object for debug </param>
         /// <param name="config"> appsettings.json properties </param>
-        public coreController(ILogger<coreController> logger, IConfiguration config)
+        public CoreController(ILogger<CoreController> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
