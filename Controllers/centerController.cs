@@ -12,9 +12,9 @@ namespace Leaf.Controllers
     [ApiController]
     // Enables JWT Auth Security for all methods in controller
     [Leaf.Attributes.HeaderCheckJWT]
-    public class centerController : ControllerBase
+    public class CenterController : ControllerBase
     {
-        private readonly ILogger<patientController> _logger;
+        private readonly ILogger<CenterController> _logger;
         private readonly IConfiguration _config;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Leaf.Controllers
         /// </summary>
         /// <param name="logger"> Logguer object for debug </param>
         /// <param name="config"> appsettings.json properties </param>
-        public centerController(ILogger<patientController> logger, IConfiguration config)
+        public CenterController(ILogger<CenterController> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
@@ -31,7 +31,7 @@ namespace Leaf.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<object> getCenter(string id)
+        public ActionResult<object> get(string id)
         {
 
             try
@@ -56,7 +56,7 @@ namespace Leaf.Controllers
 
         [HttpPost]
         [Route("create")]
-        public ActionResult<object> createCenter([FromBody] Dictionary<string, string> values)
+        public ActionResult<object> Create([FromBody] Dictionary<string, string> values)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Leaf.Controllers
 
         [HttpPost]
         [Route("save")]
-        public ActionResult<object> saveCenter([FromBody] Dictionary<string, string> values)
+        public ActionResult<object> Save([FromBody] Dictionary<string, string> values)
         {
             try
             {
