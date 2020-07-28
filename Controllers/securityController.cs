@@ -33,7 +33,7 @@ namespace Leaf.Controllers
         ///    Returns string with JWT token
         /// </returns>
         [HttpGet]
-        [Route("Login")]
+        [Route("login")]
         public ActionResult<Dictionary<string, string>> Login()
         {
             String user = String.Empty;
