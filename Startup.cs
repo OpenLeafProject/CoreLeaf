@@ -25,11 +25,24 @@ namespace Leaf
                     .AddNewtonsoftJson(options =>
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+
+            services.AddCors(options => {
+                options.AddPolicy("AllowPolicy", builder => builder
+                 .WithOrigins("http://localhost:4200/")
+                 .SetIsOriginAllowed((host) => true)
+                 .AllowAnyMethod()
+                 .AllowAnyHeader());
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
+
+            app.UseCors("AllowPolicy");
+
             app.UseRequestResponseLogging();
 
             if (env.IsDevelopment())
@@ -38,8 +51,6 @@ namespace Leaf
             }
 
             app.UseHttpsRedirection();
-
-            app.UseRouting();
 
             app.UseAuthorization();
 
