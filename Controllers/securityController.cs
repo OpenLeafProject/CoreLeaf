@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Leaf.Controllers
 {
-    [Route("api/[controller]/")]
+    [Route("api/v0.1/[controller]/")]
     [ApiController]
     public class SecurityController : ControllerBase
     {
