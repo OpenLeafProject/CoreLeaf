@@ -148,7 +148,8 @@ namespace Leaf.Controllers
             if (username != null)
             {
                 return Ok(username);
-            } else
+            }
+            else
             {
                 return Unauthorized(new Dictionary<string, string>() {
                                     { "error" , "Token is not valid" },
@@ -156,6 +157,16 @@ namespace Leaf.Controllers
                         );
             }
 
+        }
+
+        [HttpGet]
+        [Route("getprofile")]
+        public ActionResult<Dictionary<string, string>> GetProfile()
+        {
+            return Ok(new Dictionary<string, string>() {
+                                    { "profile" , "root" },
+                                }
+                        );
         }
     }
 }
