@@ -160,7 +160,6 @@ namespace Leaf.Data
             using (MySqlCommand cmd = (MySqlCommand)GetCommand(sql, parameters))
             {
                 table.Load(cmd.ExecuteReader());
-                _connection.Close();
                 return table;
             }
         }
@@ -170,7 +169,6 @@ namespace Leaf.Data
             // Log.Write(Log.LogMessageType.Database, "GetScalar", sql + GetLogParams(parameters), _connectionString);
             using (MySqlCommand cmd = (MySqlCommand)GetCommand(sql, parameters))
             {
-                _connection.Close();
                 return cmd.ExecuteScalar();
             }
         }
@@ -184,7 +182,6 @@ namespace Leaf.Data
                 // Log.Write(Log.LogMessageType.Database, "Execute", sql + GetLogParams(parameters), _connectionString);
                 using (MySqlCommand cmd = (MySqlCommand)GetCommand(sql, parameters))
                 {
-                    _connection.Close();
                     return cmd.ExecuteNonQuery();
                 }
             }
