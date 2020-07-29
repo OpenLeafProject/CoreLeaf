@@ -83,6 +83,14 @@ namespace Leaf.Data
             }
         }
 
+        ~DataLayerBaseMySQL()
+        {
+            if (_connection != null)
+            {
+                _connection.Close();
+            }
+        }
+
         public IDbTransaction BeginTransction()
         {
 
@@ -128,9 +136,6 @@ namespace Leaf.Data
 
         private IDbCommand GetCommand(string sql, params Parameters[] parameters)
         {
-            MySqlConnection cmd = new MySqlConnection(_connectionString); // = new MySqlConnection(sql, (MySqlConnection)CurrentConnection);
-            cmd.Open();
-            // cmd.BindByName = true;
             MySqlCommand command = new MySqlCommand();
             MySqlParameter tmpparam;
             foreach (Parameters param in parameters)
@@ -140,13 +145,11 @@ namespace Leaf.Data
                 command.Parameters.Add(tmpparam);
             }
 
-            command.Connection = cmd;
+            command.Connection = (MySqlConnection)_connection;
             command.CommandType = CommandType.Text;
             command.CommandText = sql;
-            // why!?? command.ExecuteNonQuery();
 
             return command;
-
         }
 
         public DataTable GetDataTable(string sql, params Parameters[] parameters)
@@ -157,6 +160,7 @@ namespace Leaf.Data
             using (MySqlCommand cmd = (MySqlCommand)GetCommand(sql, parameters))
             {
                 table.Load(cmd.ExecuteReader());
+                _connection.Close();
                 return table;
             }
         }
@@ -166,6 +170,7 @@ namespace Leaf.Data
             // Log.Write(Log.LogMessageType.Database, "GetScalar", sql + GetLogParams(parameters), _connectionString);
             using (MySqlCommand cmd = (MySqlCommand)GetCommand(sql, parameters))
             {
+                _connection.Close();
                 return cmd.ExecuteScalar();
             }
         }
@@ -179,6 +184,7 @@ namespace Leaf.Data
                 // Log.Write(Log.LogMessageType.Database, "Execute", sql + GetLogParams(parameters), _connectionString);
                 using (MySqlCommand cmd = (MySqlCommand)GetCommand(sql, parameters))
                 {
+                    _connection.Close();
                     return cmd.ExecuteNonQuery();
                 }
             }
