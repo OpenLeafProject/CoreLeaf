@@ -2,7 +2,7 @@
 
 # Leaf (REST API) 
 
-[![Build Status](https://img.shields.io/badge/build-not%20builded%20yet-orange)](https://github.com/Ukkime/Leaf) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Ukkime/Leaf/issues)
+[![Build Status](https://img.shields.io/badge/build-not%20builded%20yet-orange)](https://github.com/OpenLeafProject/CoreLeaf) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/OpenLeafProject/CoreLeaf/issues)
 
 
 ### What is Leaf?
@@ -17,10 +17,7 @@ Leaf is a complete solution for clinical data management with this awesome featu
 
 Leaf uses a number of open source projects to work properly:
 
-* [Angular] - HTML enhanced for web apps!
 * [.NET Core] - powerfull APIREST build with .NET Core 3.1
-* [Twitter Bootstrap] - great UI boilerplate for modern web apps
-* [Material Design] - beautifull components for a beautifull web app
 * [MariaDB] - one of the most popular open source relational databases (you also can use MySQL of course!)
 
 ### Clone and work with Leaf REST API
