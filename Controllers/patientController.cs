@@ -78,5 +78,79 @@ namespace Leaf.Controllers
                                    );
             }
         }
+
+        [HttpGet]
+        [Route("search/{neddle}")]
+        public ActionResult<object> Search(string neddle)
+        {
+            try
+            {
+                using (Leaf.Datalayers.Patient.DataLayer dl = new Leaf.Datalayers.Patient.DataLayer(_config))
+                {
+                    return dl.Search(neddle);
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
+
+        [HttpGet]
+        [Route("{nhc}/notes")]
+        public ActionResult<object> get(int nhc)
+        {
+
+            try
+            {
+                using (Leaf.Datalayers.Note.DataLayer dl = new Leaf.Datalayers.Note.DataLayer(_config))
+                {
+                    return dl.GetNotesByNHC(nhc, _config);
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
+
+        [HttpPost]
+        [Route("{nhc}/notes/create")]
+        public ActionResult<object> CreateNote(int nhc, [FromBody] Dictionary<string, string> values)
+        {
+
+            try
+            {
+
+                string content = values["content"];
+
+                Models.Note newNote = new Note(_config);
+                newNote.Patient = new Models.Patient(nhc, _config);
+                newNote.Content = content;
+                newNote.CreationDate = DateTime.Now;
+
+
+                string token = Request.Headers["token"];
+                string user = Tools.JWTTools.CheckToken(token);
+
+                newNote.Owner = new Models.User(user, _config);
+
+                return newNote.Create();
+
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
     }
 }
