@@ -85,7 +85,7 @@ namespace Leaf.Models
             ProfileImage    = values["profileImage"];
             LastAccess      = values["lastAccess"] != "" ? DateTime.Parse(values["lastAccess"]) : DateTime.Now;
             LastIPAdress    = values["lastIPAdress"];
-            UserProfile     = new UserProfile(Int32.Parse(values["center"]), _config);
+            UserProfile     = new UserProfile(Int32.Parse(values["profileid"]), _config);
         }
 
         private void LoadById(int id)
@@ -107,7 +107,7 @@ namespace Leaf.Models
                     Active = Int32.Parse(dt.Rows[0]["active"].ToString());
                     ProfileImage = dt.Rows[0]["profileImage"].ToString();
                     LastAccess = dt.Rows[0]["lastAccess"].ToString() != "" ? DateTime.Parse(dt.Rows[0]["lastAccess"].ToString()) : DateTime.Now;
-                    LastIPAdress = dt.Rows[0]["lasipaccess"].ToString();
+                    LastIPAdress = dt.Rows[0]["LastIPAdress"].ToString();
                     UserProfile = new UserProfile(Int32.Parse(dt.Rows[0]["profileid"].ToString()), _config);
                 }
                 else
@@ -137,7 +137,7 @@ namespace Leaf.Models
                     ProfileImage = dt.Rows[0]["profileImage"].ToString();
                     LastAccess = DateTime.Parse(dt.Rows[0]["lastAccess"].ToString());
                     LastIPAdress = dt.Rows[0]["LastIPAdress"].ToString();
-                    UserProfile = new UserProfile(Int32.Parse(dt.Rows[0]["Centerid"].ToString()), _config);
+                    UserProfile = new UserProfile(Int32.Parse(dt.Rows[0]["profileid"].ToString()), _config);
                 }
                 else
                 {
