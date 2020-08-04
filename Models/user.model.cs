@@ -83,8 +83,8 @@ namespace Leaf.Models
             CreationDate    = DateTime.Parse(values["creationDate"]);
             Active          = Int32.Parse(values["active"]);
             ProfileImage    = values["profileImage"];
-            LastAccess      = DateTime.Parse(values["lastAccess"]);
-            LastIPAdress   = values["lastIPAdress"];
+            LastAccess      = values["lastAccess"] != "" ? DateTime.Parse(values["lastAccess"]) : DateTime.Now;
+            LastIPAdress    = values["lastIPAdress"];
             UserProfile     = new UserProfile(Int32.Parse(values["center"]), _config);
         }
 
@@ -106,9 +106,9 @@ namespace Leaf.Models
                     CreationDate = DateTime.Parse(dt.Rows[0]["creationDate"].ToString());
                     Active = Int32.Parse(dt.Rows[0]["active"].ToString());
                     ProfileImage = dt.Rows[0]["profileImage"].ToString();
-                    LastAccess = DateTime.Parse(dt.Rows[0]["lastAccess"].ToString());
-                    LastIPAdress = dt.Rows[0]["LastIPAdress"].ToString();
-                    UserProfile = new UserProfile(Int32.Parse(dt.Rows[0]["Centerid"].ToString()), _config);
+                    LastAccess = dt.Rows[0]["lastAccess"].ToString() != "" ? DateTime.Parse(dt.Rows[0]["lastAccess"].ToString()) : DateTime.Now;
+                    LastIPAdress = dt.Rows[0]["lasipaccess"].ToString();
+                    UserProfile = new UserProfile(Int32.Parse(dt.Rows[0]["profileid"].ToString()), _config);
                 }
                 else
                 {

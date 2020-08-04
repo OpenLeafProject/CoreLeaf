@@ -14,20 +14,6 @@ namespace Leaf.Datalayers.Patient
 
         }
 
-        internal DataTable Test(string id)
-        {
-            try
-            {
-                string sql = @"SELECT * FROM users WHERE ID = @ID";
-
-                return GetDataTable(sql, new Parameters("ID", DbType.String, id.ToLower()));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return null;
-            }
-        }
 
         internal DataTable GetByNHC(int nhc)
         {
@@ -77,7 +63,7 @@ namespace Leaf.Datalayers.Patient
                                        , new Parameters("DNI", DbType.String, patient.Dni)
                                        , new Parameters("PHONE", DbType.String, patient.Phone)
                                        , new Parameters("PHONEALT", DbType.String, patient.PhoneAlt)
-                                       , new Parameters("ADDRESSS", DbType.String, patient.Address)
+                                       , new Parameters("ADDRESSS", DbType.String, patient.Adress)
                                        , new Parameters("CITY", DbType.String, patient.City)
                                        , new Parameters("PC", DbType.Int32, patient.Pc)
                                        , new Parameters("SEX", DbType.Int32, patient.Sex)
@@ -118,7 +104,7 @@ namespace Leaf.Datalayers.Patient
                                        , new Parameters("DNI", DbType.String, patient.Dni)
                                        , new Parameters("PHONE", DbType.String, patient.Phone)
                                        , new Parameters("PHONEALT", DbType.String, patient.PhoneAlt)
-                                       , new Parameters("ADDRESSS", DbType.String, patient.Address)
+                                       , new Parameters("ADDRESSS", DbType.String, patient.Adress)
                                        , new Parameters("CITY", DbType.String, patient.City)
                                        , new Parameters("PC", DbType.Int32, patient.Pc)
                                        , new Parameters("SEX", DbType.Int32, patient.Sex)
@@ -128,6 +114,21 @@ namespace Leaf.Datalayers.Patient
                                        , new Parameters("CENTERID", DbType.Int32, patient.Center.Id)
                                        , new Parameters("BORNDATE", DbType.Date, patient.BornDate)
                                        );
+        }
+
+        internal DataTable Search(string neddle)
+        {
+            try
+            {
+                string sql = @"SELECT * FROM patients WHERE UPPER(name) like UPPER(@NEDDLE) OR UPPER(surname) like UPPER(@NEDDLE) OR UPPER(lastname) like UPPER(@NEDDLE) or nhc = @NHC";
+
+                return GetDataTable(sql, new Parameters("NEDDLE", DbType.String, "%" + neddle + "%"), new Parameters("NHC", DbType.String, neddle));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Leaf.Models
         private Appointment appointment;
         private Center center;
         private PaymentMethod paymentMethod;
+        private User owner;
 
         private readonly IConfiguration _config;
 
@@ -30,7 +31,7 @@ namespace Leaf.Models
         public Appointment Appointment { get => appointment; set => appointment = value; }
         public Center Center { get => center; set => center = value; }
         public PaymentMethod PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
-
+        public User Owner { get => owner; set => owner = value; }
 
         public Invoice(IConfiguration config)
         {
@@ -67,7 +68,7 @@ namespace Leaf.Models
             Appointment = new Appointment(Int32.Parse(values["appointmentid"]), _config);
             Center = new Center(Int32.Parse(values["centerid"]), _config);
             PaymentMethod = new PaymentMethod(Int32.Parse(values["paymentmethodid"]), _config);
-
+            Owner = new User(Int32.Parse(values["ownerid"]), _config);
         }
 
         private void LoadById(int id)
@@ -86,7 +87,7 @@ namespace Leaf.Models
                     Appointment = new Appointment(Int32.Parse(dt.Rows[0]["appointmentid"].ToString()), _config);
                     Center = new Center(Int32.Parse(dt.Rows[0]["centerid"].ToString()), _config);
                     PaymentMethod = new PaymentMethod(Int32.Parse(dt.Rows[0]["paymentmethodid"].ToString()), _config);
-
+                    Owner = new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config);
                 }
                 else
                 {

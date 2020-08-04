@@ -38,7 +38,7 @@ namespace Leaf.Datalayers.Invoice
                                 `paymentmethodid`) 
                                VALUES
 	                           (@AMMOUNT, @IVA, @INVOICEDATE, @PAYMENTDATE, @PATIENTID, @APPOINTMENTID, 
-                                @CENTERID, @PAYMENTMETHODID); LAST_INSERT_ID();";
+                                @CENTERID, @PAYMENTMETHODID, @OWNERID); LAST_INSERT_ID();";
 
             return Int32.Parse(GetScalar(sql, new Parameters("AMMOUNT", DbType.String, invoice.Ammount)
                               , new Parameters("IVA", DbType.String, invoice.Iva)
@@ -48,6 +48,7 @@ namespace Leaf.Datalayers.Invoice
                               , new Parameters("APPOINTMENTID", DbType.String, invoice.Appointment.Id)
                               , new Parameters("CENTERID", DbType.String, invoice.Center.Id)
                               , new Parameters("PAYMENTMETHODID", DbType.String, invoice.PaymentMethod.Id)
+                              , new Parameters("OWNERID", DbType.String, invoice.Owner.Id)
                            ).ToString());
 
         }

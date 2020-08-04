@@ -54,7 +54,7 @@ namespace Leaf.Datalayers.Appointment
                                 `hash`) 
                                VALUES
 	                           (@DATETIME, @FORCED, @ALLOWINVOICE, @PRICE, @DURATION, @VISITMODE, 
-                                @NOTE, @PATIENTID, @VISITTYPEID, @VISITMODEID, @HASH)";
+                                @NOTE, @PATIENTID, @VISITTYPEID, @VISITMODEID, @HASH, @OWNERID)";
 
             return Execute(sql, new Parameters("DATETIME", DbType.String, appointment.Datetime)
                               , new Parameters("FORCED", DbType.String, appointment.Forced)
@@ -67,6 +67,7 @@ namespace Leaf.Datalayers.Appointment
                               , new Parameters("VISITTYPEID", DbType.String, appointment.VisitType.Id)
                               , new Parameters("VISITMODEID", DbType.String, appointment.VisitMode.Id)
                               , new Parameters("HASH", DbType.String, appointment.Hash)
+                              , new Parameters("OWNERID", DbType.String, appointment.Owner.Id)
                            );
 
         }

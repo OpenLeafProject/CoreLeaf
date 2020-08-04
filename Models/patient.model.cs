@@ -17,7 +17,7 @@ namespace Leaf.Models
         private string dni;
         private string phone;
         private string phonealt;
-        private string address;
+        private string adress;
         private string city;
         private string pc;
         private int sex;
@@ -36,7 +36,7 @@ namespace Leaf.Models
         public string Dni { get => dni; set => dni = value; }
         public string Phone { get => phone; set => phone = value; }
         public string PhoneAlt { get => phonealt; set => phonealt = value; }
-        public string Address { get => address; set => address = value; }
+        public string Adress { get => adress; set => adress = value; }
         public string City { get => city; set => city = value; }
         public string Pc { get => pc; set => pc = value; }
         public int Sex { get => sex; set => sex = value; }
@@ -93,15 +93,15 @@ namespace Leaf.Models
             Dni        = values["dni"];
             Phone      = values["phone"];
             PhoneAlt   = values["phoneAlt"];
-            Address    = values["address"];
+            Adress     = values["adress"];
             City       = values["city"];
             Pc         = values["pc"];
-            Sex        = Int32.Parse(values["sex"]);
+            Sex        = values["sex"] != "" ? Int32.Parse(values["sex"]) : -1;
             Note       = values["note"];
-            LastAccess = (values["lastAccess"] == "") ? DateTime.Now : DateTime.Parse(values["lastAccess"]);
             Email      = values["email"];
-            Center     = new Center(Int32.Parse(values["center"]), _config);
-            BornDate   = DateTime.Parse(values["bornDate"]);
+            //Center     = values["center"] != "" ? new Center(Int32.Parse(values["center"]), _config) : null;
+            Center     = new Center(1, _config);
+            BornDate   = (values["bornDate"] == "") ? DateTime.Now : DateTime.Parse(values["bornDate"]);
 
         }
 
@@ -119,7 +119,7 @@ namespace Leaf.Models
                     Dni = dt.Rows[0]["Dni"].ToString();
                     Phone = dt.Rows[0]["Phone"].ToString();
                     PhoneAlt = dt.Rows[0]["PhoneAlt"].ToString();
-                    Address = dt.Rows[0]["Address"].ToString();
+                    Adress = dt.Rows[0]["Address"].ToString();
                     City = dt.Rows[0]["City"].ToString();
                     Pc = dt.Rows[0]["Pc"].ToString();
                     Sex = Int32.Parse(dt.Rows[0]["Sex"].ToString());
@@ -150,7 +150,7 @@ namespace Leaf.Models
                     Dni = dt.Rows[0]["Dni"].ToString();
                     Phone = dt.Rows[0]["Phone"].ToString();
                     PhoneAlt = dt.Rows[0]["PhoneAlt"].ToString();
-                    Address = dt.Rows[0]["Address"].ToString();
+                    Adress = dt.Rows[0]["Address"].ToString();
                     City = dt.Rows[0]["City"].ToString();
                     Pc = dt.Rows[0]["Pc"].ToString();
                     Sex = Int32.Parse(dt.Rows[0]["Sex"].ToString());

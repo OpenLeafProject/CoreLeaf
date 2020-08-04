@@ -49,14 +49,15 @@ namespace Leaf.Datalayers.Report
 
             string sql = @"INSERT INTO `reports` 
                                 (`content`, `creationdate`, 
-                                `patientid`, `appointmentid`, `hash`) 
+                                `patientid`, `appointmentid`, `hash`, `ownerid`) 
                                VALUES
-	                           (@CONTENT,  NOW(), @PATIENTID, @APPOINTMENTID, @HASH)";
+	                           (@CONTENT,  NOW(), @PATIENTID, @APPOINTMENTID, @HASH, @OWNERID)";
 
             return Execute(sql, new Parameters("CONTENT", DbType.String, report.Content)
                                    , new Parameters("PATIENTID", DbType.Int32, report.Patient.Nhc)
                                    , new Parameters("APPOINTMENTID", DbType.String, report.Appointment.Id)
-                                   , new Parameters("HASH", DbType.String, report.Hash)
+                                   , new Parameters("HASH", DbType.String, Leaf.Tools.MD5Tools.GetMd5Hash(report.Content + report.Patient.Nhc))
+                                   , new Parameters("OWNERID", DbType.String, report.Owner.Id)
                                    );
 
         }

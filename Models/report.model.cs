@@ -16,6 +16,7 @@ namespace Leaf.Models
         private DateTime signDate;
         private Patient patient;
         private Appointment appointment;
+        private User owner;
 
         private readonly IConfiguration _config;
 
@@ -27,6 +28,7 @@ namespace Leaf.Models
         public Patient Patient { get => patient; set => patient = value; }
         public Appointment Appointment { get => appointment; set => appointment = value; }
         public string Hash { get => hash; set => hash = value; }
+        public User Owner { get => owner; set => owner = value; }
 
         public Report(IConfiguration config)
         {
@@ -66,6 +68,8 @@ namespace Leaf.Models
             SignDate = DateTime.Parse(values["signDate"]);
             Patient = new Patient(Int32.Parse(values["patientid"]), _config);
             Appointment = new Appointment(Int32.Parse(values["appointmentid"]), _config);
+            Owner = new User(Int32.Parse(values["ownerid"]), _config);
+
         }
 
         private void LoadById(int id)
@@ -81,6 +85,7 @@ namespace Leaf.Models
                     SignDate = DateTime.Parse(dt.Rows[0]["signDate"].ToString());
                     Patient = new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config);
                     Appointment = new Appointment(Int32.Parse(dt.Rows[0]["appointmentid"].ToString()), _config);
+                    Owner = new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config);
                 }
                 else
                 {
@@ -102,7 +107,7 @@ namespace Leaf.Models
                     SignDate = DateTime.Parse(dt.Rows[0]["signDate"].ToString());
                     Patient = new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config);
                     Appointment = new Appointment(Int32.Parse(dt.Rows[0]["appointmentid"].ToString()), _config);
-
+                    Owner = new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config);
                 }
                 else
                 {

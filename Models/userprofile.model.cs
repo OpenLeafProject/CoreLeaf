@@ -55,7 +55,7 @@ namespace Leaf.Models
 
             Code = values["code"];
             Description = values["description"];
-            CreationDate = DateTime.Parse(values["creationDate"]);
+            CreationDate = values["creationDate"] != "" ? DateTime.Parse(values["creationDate"]) : DateTime.Now;
 
         }
 

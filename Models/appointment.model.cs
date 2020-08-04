@@ -20,6 +20,7 @@ namespace Leaf.Models
         private Patient patient;
         private VisitType visitType;
         private VisitMode visitMode;
+        private User owner;
 
         private readonly IConfiguration _config;
 
@@ -34,6 +35,7 @@ namespace Leaf.Models
         public Patient Patient { get => patient; set => patient = value; }
         public VisitType VisitType { get => visitType; set => visitType = value; }
         public string Hash { get => hash; set => hash = value; }
+        public User Owner { get => owner; set => owner = value; }
 
         public Appointment(IConfiguration config)
         {
@@ -77,7 +79,7 @@ namespace Leaf.Models
             Patient = new Patient(Int32.Parse(values["patientid"]), _config);
             VisitType = new VisitType(Int32.Parse(values["visittypeid"]), _config);
             VisitMode = new VisitMode(Int32.Parse(values["visitmodeid"]), _config);
-
+            Owner = new User(Int32.Parse(values["ownerid"].ToString()), _config);
         }
 
         private void LoadById(int id)
@@ -97,7 +99,7 @@ namespace Leaf.Models
                     Patient = new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config);
                     VisitType = new VisitType(Int32.Parse(dt.Rows[0]["visittypeid"].ToString()), _config);
                     VisitMode = new VisitMode(Int32.Parse(dt.Rows[0]["visitmodeid"].ToString()), _config);
-
+                    Owner = new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config);
 
                 }
                 else
@@ -124,7 +126,7 @@ namespace Leaf.Models
                     Patient = new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config);
                     VisitType = new VisitType(Int32.Parse(dt.Rows[0]["visittypeid"].ToString()), _config);
                     VisitMode = new VisitMode(Int32.Parse(dt.Rows[0]["visitmodeid"].ToString()), _config);
-
+                    Owner = new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config);
 
                 }
                 else
