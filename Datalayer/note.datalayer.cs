@@ -69,7 +69,7 @@ namespace Leaf.Datalayers.Note
         {
             try
             {
-                string sql = @"SELECT * FROM notes WHERE PATIENTID = @NHC";
+                string sql = @"SELECT * FROM notes WHERE PATIENTID = @NHC ORDER BY CREATIONDATE DESC";
 
                 DataTable dt = GetDataTable(sql, new Parameters("NHC", DbType.Int32, nhc));
                 List<Models.Note> notes = new List<Models.Note>();
