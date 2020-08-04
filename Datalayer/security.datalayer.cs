@@ -33,7 +33,7 @@ namespace Leaf.Datalayers.Security
                                PASSWORD = @PASSWORD";
 
                 // Gets Datatable from DB
-                DataTable dt = GetDataTable(sql, new Parameters("USERNAME", DbType.String, user), new Parameters("PASSWORD", DbType.String, Leaf.Tools.MD5Tools.GetMd5Hash(password)));
+                DataTable dt = GetDataTable(sql, new Parameters("USERNAME", DbType.String, user.ToLower()), new Parameters("PASSWORD", DbType.String, Leaf.Tools.MD5Tools.GetMd5Hash(password)));
 
                 // Checks if there is one exactly one row in DT (If there are more than one, something is wrong) 
                 if(dt.Rows.Count == 1)
