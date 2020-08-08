@@ -27,7 +27,27 @@ namespace Leaf.Controllers
             _logger = logger;
             _config = config;
         }
-         
+
+        [HttpGet]
+        [Route("getall")]
+        public ActionResult<object> GetAll()
+        {
+            try
+            {
+                using (Leaf.Datalayers.User.DataLayer dl = new Leaf.Datalayers.User.DataLayer(_config))
+                {
+                    return dl.GetAll(_config);
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
+
         [HttpGet]
         [Route("{id}")]
         public ActionResult<object> Get(string id)

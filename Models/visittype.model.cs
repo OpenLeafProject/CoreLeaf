@@ -12,6 +12,7 @@ namespace Leaf.Models
         private int id;
         private string description;
         private string code;
+        private string color;
         private DateTime creationDate;
 
         private readonly IConfiguration _config;
@@ -20,6 +21,7 @@ namespace Leaf.Models
         public string Description { get => description; set => description = value; }
         public string Code { get => code; set => code = value; }
         public DateTime CreationDate { get => creationDate; set => creationDate = value; }
+        public string Color { get => color; set => color = value; }
 
         public VisitType(IConfiguration config)
         {
@@ -56,6 +58,7 @@ namespace Leaf.Models
             Code = values["code"];
             Description = values["description"];
             CreationDate = DateTime.Parse(values["creationDate"]);
+            Color = values["color"];
 
         }
 
@@ -70,6 +73,7 @@ namespace Leaf.Models
                     Code = dt.Rows[0]["code"].ToString();
                     Description = dt.Rows[0]["description"].ToString();
                     CreationDate = DateTime.Parse(dt.Rows[0]["creationdate"].ToString());
+                    Color = dt.Rows[0]["color"].ToString();
                 }
                 else
                 {
@@ -89,6 +93,7 @@ namespace Leaf.Models
                     Code = dt.Rows[0]["code"].ToString();
                     Description = dt.Rows[0]["description"].ToString();
                     CreationDate = DateTime.Parse(dt.Rows[0]["creationdate"].ToString());
+                    Color = dt.Rows[0]["color"].ToString();
                 }
                 else
                 {

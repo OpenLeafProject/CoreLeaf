@@ -88,5 +88,53 @@ namespace Leaf.Controllers
                                    );
             }
         }
+
+        [HttpGet]
+        [Route("gettodayslist")]
+        public ActionResult<object> GetTodaysList()
+        {
+            try
+            {
+                using (Leaf.Datalayers.Appointment.DataLayer dl = new Leaf.Datalayers.Appointment.DataLayer(_config))
+                {
+                    string token = Request.Headers["token"];
+                    string user = Tools.JWTTools.CheckToken(token);
+
+                    return dl.GetTodaysList(new Models.User(user, _config), _config);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
+
+        [HttpGet]
+        [Route("getfullcalendar")]
+        public ActionResult<object> GetFullCalendar()
+        {
+            try
+            {
+                using (Leaf.Datalayers.Appointment.DataLayer dl = new Leaf.Datalayers.Appointment.DataLayer(_config))
+                {
+                    string token = Request.Headers["token"];
+                    string user = Tools.JWTTools.CheckToken(token);
+
+                    return dl.GetFullCalendar(new Models.User(user, _config), _config);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
     }
 }

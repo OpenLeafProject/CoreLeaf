@@ -28,6 +28,25 @@ namespace Leaf.Controllers
             _config = config;
         }
 
+        [HttpGet]
+        [Route("getall")]
+        public ActionResult<object> GetAll()
+        {
+            try
+            {
+                using (Leaf.Datalayers.VisitMode.DataLayer dl = new Leaf.Datalayers.VisitMode.DataLayer(_config))
+                {
+                    return dl.GetAll(_config);
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(new Dictionary<string, string>() {
+                                        { "error" , ex.Message },
+                                    }
+                                   );
+            }
+        }
 
         [HttpGet]
         [Route("{id}")]

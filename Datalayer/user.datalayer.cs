@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
@@ -68,6 +70,24 @@ namespace Leaf.Datalayers.User
                                        , new Parameters("PROFILEID", DbType.Int32, user.UserProfile.Id)
                                        );
 
+        }
+
+        internal ActionResult<object> GetAll(IConfiguration _config)
+        {
+            string sql = @"SELECT * FROM users";
+
+            DataTable dt = GetDataTable(sql);
+            List<Models.User> users = new List<Models.User>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+
+                Models.User tmpUser = new Models.User(Int32.Parse(row["id"].ToString()), _config);
+
+                users.Add(tmpUser);
+            }
+
+            return users;
         }
 
         internal int Save(Models.User user)

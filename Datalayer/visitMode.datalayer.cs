@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
@@ -56,6 +58,24 @@ namespace Leaf.Datalayers.VisitMode
                                    , new Parameters("DESCRIPTION", DbType.String, center.Description)
                                    );
 
+        }
+
+        internal ActionResult<object> GetAll(IConfiguration _config)
+        {
+            string sql = @"SELECT * FROM visit_modes";
+
+            DataTable dt = GetDataTable(sql);
+            List<Models.VisitMode> list = new List<Models.VisitMode>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+
+                Models.VisitMode tmp = new Models.VisitMode(Int32.Parse(row["id"].ToString()), _config);
+
+                list.Add(tmp);
+            }
+
+            return list;
         }
 
         internal int Save(Models.VisitMode center)

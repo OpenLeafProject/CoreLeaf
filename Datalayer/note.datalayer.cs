@@ -77,15 +77,6 @@ namespace Leaf.Datalayers.Note
                 foreach (DataRow row in dt.Rows)
                 {
 
-                    Dictionary<string, string> dic = new Dictionary<string, string> {
-                        { "id",             row["id"].ToString() },
-                        { "content",        row["content"].ToString() },
-                        { "creationDate",   row["creationDate"].ToString() },
-                        { "hash",           row["hash"].ToString() },
-                        { "patientid",      row["patientid"].ToString() },
-                        { "ownerid",        row["ownerid"].ToString() }
-                    };
-
                     Models.Note tmpNote = new Models.Note(
                         new Dictionary<string, string> {
                         { "id",             row["id"].ToString() },

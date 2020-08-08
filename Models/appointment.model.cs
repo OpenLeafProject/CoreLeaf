@@ -15,6 +15,7 @@ namespace Leaf.Models
         private int allowInvoice;
         private Double price;
         private int duration;
+        private int status;
         private string note;
         private string hash;
         private Patient patient;
@@ -36,6 +37,7 @@ namespace Leaf.Models
         public VisitType VisitType { get => visitType; set => visitType = value; }
         public string Hash { get => hash; set => hash = value; }
         public User Owner { get => owner; set => owner = value; }
+        public int Status { get => status; set => status = value; }
 
         public Appointment(IConfiguration config)
         {
@@ -73,13 +75,56 @@ namespace Leaf.Models
             Datetime = DateTime.Parse(values["datetime"]);
             Forced = Int32.Parse(values["forced"]);
             AllowInvoice = Int32.Parse(values["allowinvoice"]);
-            Price = Double.Parse(values["price"]);
+            Status = Int32.Parse(values["status"]);
             Duration = Int32.Parse(values["duration"]);
             Note = values["note"];
-            Patient = new Patient(Int32.Parse(values["patientid"]), _config);
-            VisitType = new VisitType(Int32.Parse(values["visittypeid"]), _config);
-            VisitMode = new VisitMode(Int32.Parse(values["visitmodeid"]), _config);
-            Owner = new User(Int32.Parse(values["ownerid"].ToString()), _config);
+
+            try
+            {
+                Price = Double.Parse(values["price"]);
+            } catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Price = 0;
+            }
+
+
+            try
+            {
+                Patient = values["patientid"] != "" ? new Patient(Int32.Parse(values["patientid"]), _config) : null;
+            } catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Patient = null;
+            }
+
+            try
+            {
+                VisitType = values["visittypeid"] != "" ? new VisitType(Int32.Parse(values["visittypeid"]), _config) : null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                VisitType = null;
+            }
+            try {
+                VisitMode = values["visitmodeid"] != "" ? new VisitMode(Int32.Parse(values["visitmodeid"]), _config) : null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                VisitMode = null;
+            }
+            try { 
+                Owner = new User(Int32.Parse(values["ownerid"].ToString()), _config);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Owner = null;
+            }
+
+            Hash = Tools.MD5Tools.GetMd5Hash(Datetime.ToString() + Duration);
         }
 
         private void LoadById(int id)
@@ -95,11 +140,13 @@ namespace Leaf.Models
                     AllowInvoice = Int32.Parse(dt.Rows[0]["allowinvoice"].ToString());
                     Price = Double.Parse(dt.Rows[0]["price"].ToString());
                     Duration = Int32.Parse(dt.Rows[0]["duration"].ToString());
+                    Status = Int32.Parse(dt.Rows[0]["status"].ToString());
                     Note = dt.Rows[0]["note"].ToString();
-                    Patient = new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config);
+                    Patient = dt.Rows[0]["patientid"].ToString() != "" ? new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config) : null;
                     VisitType = new VisitType(Int32.Parse(dt.Rows[0]["visittypeid"].ToString()), _config);
                     VisitMode = new VisitMode(Int32.Parse(dt.Rows[0]["visitmodeid"].ToString()), _config);
                     Owner = new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config);
+
 
                 }
                 else
@@ -122,11 +169,12 @@ namespace Leaf.Models
                     AllowInvoice = Int32.Parse(dt.Rows[0]["allowinvoice"].ToString());
                     Price = Double.Parse(dt.Rows[0]["price"].ToString());
                     Duration = Int32.Parse(dt.Rows[0]["duration"].ToString());
+                    Status = Int32.Parse(dt.Rows[0]["status"].ToString());
                     Note = dt.Rows[0]["note"].ToString();
-                    Patient = new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config);
-                    VisitType = new VisitType(Int32.Parse(dt.Rows[0]["visittypeid"].ToString()), _config);
-                    VisitMode = new VisitMode(Int32.Parse(dt.Rows[0]["visitmodeid"].ToString()), _config);
-                    Owner = new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config);
+                    Patient = dt.Rows[0]["patientid"].ToString() != "" ? new Patient(Int32.Parse(dt.Rows[0]["patientid"].ToString()), _config) : null;
+                    VisitType = dt.Rows[0]["patientid"].ToString() != "" ? new VisitType(Int32.Parse(dt.Rows[0]["visittypeid"].ToString()), _config) : null;
+                    VisitMode = dt.Rows[0]["patientid"].ToString() != "" ? new VisitMode(Int32.Parse(dt.Rows[0]["visitmodeid"].ToString()), _config) : null;
+                    Owner = dt.Rows[0]["patientid"].ToString() != "" ? new User(Int32.Parse(dt.Rows[0]["ownerid"].ToString()), _config) : null;
 
                 }
                 else
