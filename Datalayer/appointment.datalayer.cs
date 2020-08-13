@@ -88,7 +88,8 @@ namespace Leaf.Datalayers.Appointment
                                 `visittypeid` = @VISITTYPEID,
                                 `visitmodeid` = @VISITMODEID,
                                 `hash` = @HASH,
-                                `status` = @STATUS
+                                `status` = @STATUS,
+                                `ownerid` = @OWNERID
 
                                WHERE `id` = @ID";
 
@@ -99,9 +100,10 @@ namespace Leaf.Datalayers.Appointment
                               , new Parameters("PRICE", DbType.String, appointment.Price)
                               , new Parameters("DURATION", DbType.String, appointment.Duration)
                               , new Parameters("NOTE", DbType.String, appointment.Note)
-                              , new Parameters("PATIENTID", DbType.String, appointment.Patient.Nhc)
-                              , new Parameters("VISITTYPEID", DbType.Int32, appointment.VisitType.Id)
-                              , new Parameters("VISITMODEID", DbType.Int32, appointment.VisitMode.Id)
+                              , new Parameters("PATIENTID", DbType.String, (appointment.Patient != null ? appointment.Patient.Nhc.ToString() : null))
+                              , new Parameters("VISITTYPEID", DbType.String, (appointment.VisitType != null ? appointment.VisitType.Id.ToString() : null))
+                              , new Parameters("VISITMODEID", DbType.String, (appointment.VisitMode != null ? appointment.VisitMode.Id.ToString() : null))
+                              , new Parameters("OWNERID", DbType.String, (appointment.Owner != null ? appointment.Owner.Id.ToString() : null))
                               , new Parameters("HASH", DbType.String, appointment.Hash)
                               , new Parameters("STATUS", DbType.Int32, appointment.Status)
                           );
