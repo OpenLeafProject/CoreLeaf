@@ -39,13 +39,13 @@ namespace Leaf.Datalayers.Note
                                 (`content`, `creationdate`, 
                                 `patientid`, `hash`, `ownerid`) 
                                VALUES
-	                           (@CONTENT, NOW(), @PATIENTID, @HASH, @OWNERID)";
+	                           (@CONTENT, NOW(), @PATIENTID, @HASH, @OWNERID); SELECT LAST_INSERT_ID();";
 
-            return Execute(sql, new Parameters("CONTENT", DbType.String, note.Content)
+            return Int32.Parse(GetScalar(sql, new Parameters("CONTENT", DbType.String, note.Content)
                                    , new Parameters("PATIENTID", DbType.Int32, note.Patient.Nhc)
                                    , new Parameters("HASH", DbType.String, Leaf.Tools.MD5Tools.GetMd5Hash(note.Content + note.Patient.Nhc + note.Owner))
                                    , new Parameters("OWNERID", DbType.String, note.Owner.Id)
-                                   );
+                                   ).ToString());
 
         }
 
